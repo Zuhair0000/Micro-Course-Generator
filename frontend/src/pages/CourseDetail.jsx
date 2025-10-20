@@ -13,13 +13,13 @@ export default function CourseDetail() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#1F2028] text-white px-6 py-20">
+      <div className="min-h-screen bg-[#1F2028] flex flex-col items-center text-white px-6 py-20">
         <h1 className="text-3xl font-bold text-orange-500 mb-6">
           Micro-Course: Basic Python for Data Cleaning
         </h1>
 
         {/* Tabs */}
-        <div className="flex space-x-6 border-b border-gray-700 mb-6">
+        <div className="flex space-x-10 border-b border-gray-700 mb-6">
           {["lessons", "schedule", "emails"].map((tab) => (
             <button
               key={tab}

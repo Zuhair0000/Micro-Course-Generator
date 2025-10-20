@@ -4,7 +4,7 @@ import { Mail } from "lucide-react";
 
 export default function Emails() {
   return (
-    <div className="py-10">
+    <div className="py-10 animate-fade-in">
       {/* Header */}
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-[#F3911D] via-[#C94BAA] to-[#840B86] rounded-xl mb-4">
