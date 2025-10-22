@@ -8,17 +8,24 @@ export default function Signup() {
   const API_URL = import.meta.env.VITE_API_URL;
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleRegister = async (formdata) => {
+  const handleRegister = async (formData, setFormData) => {
     setIsLoading(true);
     try {
       const res = await fetch(`${API_URL}/api/auth/signup`, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formdata),
+        body: JSON.stringify(formData),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Signup Failed");
 
-      navigate("/logon");
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+      });
+
+      navigate("/login");
     } catch (err) {
       alert(err.message);
     } finally {

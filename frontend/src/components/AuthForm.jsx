@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
 
-export default function AuthForm({ type }) {
+export default function AuthForm({ type, onSubmit, IsLoading }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,6 +13,11 @@ export default function AuthForm({ type }) {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData, setFormData);
+  };
+
   const isSignup = type === "signup";
   return (
     <div className="w-full max-w-md mx-auto bg-[#1F2028] backdrop:blur-lg rounded-2xl p-8 shadow-lg text-white border border-white/10">
@@ -20,7 +25,7 @@ export default function AuthForm({ type }) {
         {isSignup ? "Signup" : "Login"}
       </h1>
 
-      <form className="space-y-5">
+      <form className="space-y-5" onSubmit={handleSubmit}>
         {isSignup && (
           <div>
             <label className="block text-sm mb-1">Full Name</label>
@@ -58,7 +63,7 @@ export default function AuthForm({ type }) {
           />
         </div>
         <div className="flex justify-center">
-          <Button>{isSignup ? "Sign up" : "Login"}</Button>
+          <Button onSubmit={onSubmit}>{isSignup ? "Sign up" : "Login"}</Button>
         </div>
       </form>
       <p className="text-center mt-3 text-sm">
