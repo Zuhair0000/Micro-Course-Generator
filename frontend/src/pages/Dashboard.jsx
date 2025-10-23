@@ -1,8 +1,10 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   return (
     <>
       <Navbar />
@@ -15,7 +17,7 @@ export default function Dashboard() {
           content generation, landing pages, and email sequences.
         </p>
 
-        <Button>Create</Button>
+        <Button onSubmit={() => navigate("/create")}>Create</Button>
 
         <div className="relative w-[calc(100%+3rem)] -mx-6 my-2 h-64 overflow-hidden">
           <svg

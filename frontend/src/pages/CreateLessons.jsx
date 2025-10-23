@@ -1,0 +1,129 @@
+import React, { useState } from "react";
+import Button from "../components/Button";
+import Navbar from "../components/Navbar";
+// import { useNavigate } from "react-router-dom";
+
+export default function CreateStory() {
+  const [formData, setFormData] = useState({
+    topic: "",
+    targetedAudience: "",
+  });
+  // const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const API_URL = import.meta.env.VITE_API_URL;
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/api/lessons/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      console.log("Generated stories:", data);
+
+      if (res.ok) {
+        alert("Stories generated successfully!");
+      } else {
+        alert(data.message || "Failed to generate stories");
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  return (
+    <>
+      <Navbar showAuthButtons={false} />
+      <div className="min-h-screen bg-[#1F2028] text-white flex flex-col items-center">
+        {/* Form */}
+        <form className="bg-[#1F2028] shadow-2xl rounded-2xl p-10 mt-20 w-full max-w-3xl z-10 relative">
+          <h1 className="text-2xl text-center text-orange-500 font-bold mb-3">
+            Create Story
+          </h1>
+          <p className="text-gray-400 text-sm mb-5 text-center">
+            Share your company details and let AI craft compelling narratives
+            that resonate with your audience
+          </p>
+
+          <div className="space-y-5 flex flex-col items-center w-full">
+            <div>
+              <label className="text-sm text-gray-400 block mb-1">topic</label>
+              <input
+                type="text"
+                name="topic"
+                value={formData.topic}
+                onChange={handleChange}
+                className="w-100 bg-gray-800 border border-gray-700 rounded-2xl p-2 text-s, focus:outline-none focus:ring-2 focus:ring-orange-500"
+              />
+            </div>
+            <div>
+              <label className="text-sm text-gray-400 block mb-1">
+                Targeted Audience
+              </label>
+              <textarea
+                name="targetedAudience"
+                value={formData.targetedAudience}
+                onChange={handleChange}
+                rows="3"
+                className="w-100 bg-gray-800 border border-gray-700 rounded-2xl p-2 text-s, focus:outline-none focus:ring-2 focus:ring-orange-500"
+              />
+            </div>
+
+            <Button onSubmit={handleSubmit}>
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 mr-2 animate-spin text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
+                    ></path>
+                  </svg>
+                  Creating…
+                </div>
+              ) : (
+                <>Create Lessons</>
+              )}
+            </Button>
+            <a
+              href="/create-order"
+              className="inline-block underline text-blue-400 font-medium hover:text-blue-300 transition-all duration-200"
+            >
+              Purchase More Credits!
+            </a>
+          </div>
+        </form>
+
+        {/* Gradient Section */}
+        <div className="flex-1 w-full bg-gradient-to-r from-[#F3911D] to-[#840B86] rounded-t-[100px] mt-10"></div>
+      </div>
+    </>
+  );
+}

@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import CourseDetail from "./pages/CourseDetail";
+import CreateStory from "./pages/CreateLessons";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/course" element={<CourseDetail />} />
+        <Route path="/create" element={<CreateStory />} />
       </Routes>
     </>
   );

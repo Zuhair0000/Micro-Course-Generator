@@ -10,4 +10,9 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
+pool
+  .connect()
+  .then(console.log("Connected to PostgreSQL (Supabase)"))
+  .catch((err) => console.error("Database connection error:", err));
+
 module.exports = pool;
