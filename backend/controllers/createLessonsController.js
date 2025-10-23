@@ -96,3 +96,21 @@ exports.generateLessons = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getAllDrafts = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const result = await pool.query(
+      "SELECT id, title, schedule, created_at FROM drafts WHERE user_id = $1",
+      [userId]
+    );
+
+    res
+      .status(201)
+      .json({ message: "Drafts fetched successfully", drafts: result.rows });
+  } catch (err) {
+    console.error("Failed to fetch drafts:", err);
+    res.status(500).json({ message: "Failed to fetch drafts" });
+  }
+};

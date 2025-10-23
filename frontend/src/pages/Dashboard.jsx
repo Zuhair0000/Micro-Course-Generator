@@ -2,9 +2,30 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [drafts, setDrafts] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL;
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const fetchDrafts = async () => {
+      const res = await fetch(`${API_URL}/api/lessons/`, {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+
+      setDrafts(data.drafts);
+    };
+
+    fetchDrafts();
+  });
   return (
     <>
       <Navbar />
@@ -41,25 +62,18 @@ export default function Dashboard() {
         <h2 className="text-3xl text-orange-500 font-bold py-10">
           Previous Courses
         </h2>
-
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-          <div className="bg=[#2A2B33] rounded-2xl border w-72 p-5 shadow-lg cursor-pointer text-white border-white/20 hover:scale-105 transition-transform">
-            <h3 className="text-xl font-bold mb-2">Title</h3>
-            <p className="text-gray-400 mb-3 text-sm">12/12/25</p>
-            <p className="text-gray-300 mb-3 text-sm">lessons preview</p>
-          </div>
-
-          <div className="bg=[#2A2B33] rounded-2xl border w-72 p-5 shadow-lg cursor-pointer text-white border-white/20 hover:scale-105 transition-transform">
-            <h3 className="text-xl font-bold mb-2">Title</h3>
-            <p className="text-gray-400 mb-3 text-sm">12/12/25</p>
-            <p className="text-gray-300 mb-3 text-sm">lessons preview</p>
-          </div>
-
-          <div className="bg=[#2A2B33] rounded-2xl border w-72 p-5 shadow-lg cursor-pointer text-white border-white/20 hover:scale-105 transition-transform">
-            <h3 className="text-xl font-bold mb-2">Title</h3>
-            <p className="text-gray-400 mb-3 text-sm">12/12/25</p>
-            <p className="text-gray-300 mb-3 text-sm">lessons preview</p>
-          </div>
+          {drafts.map((draft) => (
+            <div
+              key={draft.id}
+              className="bg=[#2A2B33] rounded-2xl border w-72 p-5 shadow-lg cursor-pointer text-white border-white/20 hover:scale-105 transition-transform"
+              onClick={() => navigate(`/course/${draft.id}`)}
+            >
+              <h3 className="text-xl font-bold mb-2">{draft.title}</h3>
+              <p className="text-gray-400 mb-3 text-sm">{draft.created_at}</p>
+              <p className="text-gray-300 mb-3 text-sm">lessons preview</p>
+            </div>
+          ))}
         </div>
       </div>
     </>
