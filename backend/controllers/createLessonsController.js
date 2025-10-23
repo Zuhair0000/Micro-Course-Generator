@@ -114,3 +114,36 @@ exports.getAllDrafts = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch drafts" });
   }
 };
+
+exports.getLessonsByDraftId = async (req, res) => {
+  const { draftId } = req.params;
+
+  try {
+    const resultLessons = await pool.query(
+      "SELECT * FROM lessons WHERE draft_id = $1",
+      [draftId]
+    );
+
+    const resultEmails = await pool.query(
+      "SELECT * FROM emails WHERE draft_id = $1",
+      [draftId]
+    );
+
+    const resultSchedule = await pool.query(
+      "SELECT schedule FROM drafts WHERE id = $1",
+      [draftId]
+    );
+
+    console.log("Lessons found:", resultLessons.rows);
+    console.log("Requested draftId:", draftId);
+    res.status(201).json({
+      message: "lessons fetched successfully",
+      lessons: resultLessons.rows,
+      emails: resultEmails.rows,
+      schedule: resultSchedule.rows,
+    });
+  } catch (err) {
+    console.error("Failed to fetch lessons:", err);
+    res.status(500).json({ message: "Failed to fetch lessons" });
+  }
+};

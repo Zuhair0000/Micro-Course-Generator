@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent } from "./Card";
 import { Mail } from "lucide-react";
 
-export default function Emails() {
+export default function Emails({ emails }) {
   return (
     <div className="py-10 animate-fade-in">
       {/* Header */}
@@ -18,45 +18,16 @@ export default function Emails() {
 
       {/* Email Cards */}
       <div className="space-y-6 max-w-3xl mx-auto">
-        {[
-          {
-            day: "Day 0",
-            title: "Welcome Email",
-            desc: "Sent immediately after enrollment — introduces the course and sets expectations.",
-          },
-          {
-            day: "Day 1",
-            title: "Lesson 1 Reminder",
-            desc: "Highlights the first lesson with a summary and call to action to start learning.",
-          },
-          {
-            day: "Day 3",
-            title: "Lesson 2 Released",
-            desc: "Notifies the learner that the next lesson is now available, reinforcing engagement.",
-          },
-          {
-            day: "Day 5",
-            title: "Completion & Feedback",
-            desc: "Encourages the learner to complete the final lesson and share feedback.",
-          },
-        ].map((email, index) => (
+        {emails.map((email, index) => (
           <Card
             key={index}
             className="bg-[#1F2028]/80 border border-white/10 shadow-md hover:shadow-xl transition-all"
           >
             <CardContent className="p-6 flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-[#F3911D] via-[#C94BAA] to-[#840B86] flex-shrink-0">
-                <span className="text-white font-bold text-sm">
-                  {email.day}
-                </span>
-              </div>
               <div>
                 <h3 className="text-xl font-semibold text-white mb-1 flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-[#F3911D]" /> {email.title}
+                  <Mail className="w-5 h-5 text-[#F3911D]" /> {email.subject}
                 </h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  {email.desc}
-                </p>
               </div>
             </CardContent>
           </Card>

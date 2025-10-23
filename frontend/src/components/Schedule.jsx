@@ -2,7 +2,9 @@ import React from "react";
 import { BookOpen, Calendar, Mail } from "lucide-react";
 import { Card, CardContent } from "./Card";
 
-export default function Schedule() {
+export default function Schedule({ schedule }) {
+  const days = schedule === "daily" ? [1, 2, 3, 4, 5] : [1, 8, 15, 22, 29]; // weekly visualization
+
   return (
     <div className="py-8">
       <div className="text-center mb-10">
@@ -21,7 +23,7 @@ export default function Schedule() {
         <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-[#FFA500] via-[#FF5EAA] to-[#800080]"></div>
 
         {/* Days */}
-        {[1, 2, 3, 4, 5].map((day) => (
+        {days.map((day) => (
           <div key={day} className="relative mb-16">
             {/* Day Bubble */}
             <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#F3911D] via-[#C94BAA] to-[#840B86] rounded-full border-4 border-background shadow-xl z-10">

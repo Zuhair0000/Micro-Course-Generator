@@ -6,10 +6,34 @@ import { Card, CardContent } from "../components/Card";
 import Schedule from "../components/Schedule";
 import Lessons from "../components/Lessons";
 import Emails from "../components/Emails";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 export default function CourseDetail() {
   const [activeTab, setActiveTab] = useState("lessons");
+  const [lessons, setLessons] = useState([]);
+  const [emails, setEmails] = useState([]);
+  const [schedule, setSchedule] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL;
+  const { id } = useParams();
+  const token = localStorage.getItem("token");
 
+  useEffect(() => {
+    const fetchLessons = async () => {
+      const res = await fetch(`${API_URL}/api/lessons/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      setLessons(data.lessons);
+      setEmails(data.emails);
+      setSchedule(data.schedule);
+    };
+    fetchLessons();
+  }, [API_URL, id, token]);
   return (
     <>
       <Navbar />
@@ -36,11 +60,11 @@ export default function CourseDetail() {
         </div>
 
         {/* Tab Content */}
-        {activeTab === "lessons" && <Lessons />}
+        {activeTab === "lessons" && <Lessons lessons={lessons} />}
 
-        {activeTab === "schedule" && <Schedule />}
+        {activeTab === "schedule" && <Schedule schedule={schedule} />}
 
-        {activeTab === "emails" && <Emails />}
+        {activeTab === "emails" && <Emails emails={emails} />}
       </div>
     </>
   );
