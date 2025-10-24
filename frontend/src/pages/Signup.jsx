@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import AuthForm from "../components/AuthForm";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export default function Signup() {
         email: "",
         password: "",
       });
+      toast.success("Sign up successful");
 
       navigate("/login");
     } catch (err) {

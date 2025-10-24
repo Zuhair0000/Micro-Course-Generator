@@ -28,14 +28,14 @@ export default function Dashboard() {
   });
   return (
     <>
-      <Navbar />
+      <Navbar showbuttons={false} />
       <div className="min-h-screen flex flex-col items-center bg-[#1F2028] py-40 px-6">
         <h1 className="text-4xl text-center font-bold text-orange-500 mb-4">
-          Create Micro-Courses
+          Micro-Courses Planner
         </h1>
         <p className="text-gray-400 mb-30 text-center">
-          Transform any topic into a professional micro-course with AI-powered
-          content generation, landing pages, and email sequences.
+          Transform any topic into a professional micro-course plan with
+          AI-powered content generation, landing pages, and email sequences.
         </p>
 
         <Button onSubmit={() => navigate("/create")}>Create</Button>
@@ -62,19 +62,24 @@ export default function Dashboard() {
         <h2 className="text-3xl text-orange-500 font-bold py-10">
           Previous Courses
         </h2>
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-          {drafts.map((draft) => (
-            <div
-              key={draft.id}
-              className="bg=[#2A2B33] rounded-2xl border w-72 p-5 shadow-lg cursor-pointer text-white border-white/20 hover:scale-105 transition-transform"
-              onClick={() => navigate(`/course/${draft.id}`)}
-            >
-              <h3 className="text-xl font-bold mb-2">{draft.title}</h3>
-              <p className="text-gray-400 mb-3 text-sm">{draft.created_at}</p>
-              <p className="text-gray-300 mb-3 text-sm">lessons preview</p>
-            </div>
-          ))}
-        </div>
+
+        {drafts.length > 0 ? (
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+            {drafts.map((draft) => (
+              <div
+                key={draft.id}
+                className="bg=[#2A2B33] rounded-2xl border w-72 p-5 shadow-lg cursor-pointer text-white border-white/20 hover:scale-105 transition-transform"
+                onClick={() => navigate(`/course/${draft.id}`)}
+              >
+                <h3 className="text-xl font-bold mb-2">{draft.title}</h3>
+                <p className="text-gray-400 mb-3 text-sm">{draft.created_at}</p>
+                <p className="text-gray-300 mb-3 text-sm">lessons preview</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-2xl text-gray-500">You Don't have Lessons Yet!</p>
+        )}
       </div>
     </>
   );

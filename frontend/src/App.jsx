@@ -6,10 +6,12 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import CourseDetail from "./pages/CourseDetail";
 import CreateStory from "./pages/CreateLessons";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   return (
     <>
+      <Toaster position="top-center" />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Button from "../components/Button";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 // import { useNavigate } from "react-router-dom";
 
 export default function CreateStory() {
@@ -12,6 +14,7 @@ export default function CreateStory() {
   const token = localStorage.getItem("token");
   const API_URL = import.meta.env.VITE_API_URL;
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +38,8 @@ export default function CreateStory() {
       console.log("Generated stories:", data);
 
       if (res.ok) {
-        alert("Stories generated successfully!");
+        toast.success("Stories generated successfully!");
+        navigate("/dashboard");
       } else {
         alert(data.message || "Failed to generate stories");
       }
@@ -47,12 +51,12 @@ export default function CreateStory() {
   };
   return (
     <>
-      <Navbar showAuthButtons={false} />
+      <Navbar showbuttons={false} />
       <div className="min-h-screen bg-[#1F2028] text-white flex flex-col items-center">
         {/* Form */}
         <form className="bg-[#1F2028] shadow-2xl rounded-2xl p-10 mt-20 w-full max-w-3xl z-10 relative">
           <h1 className="text-2xl text-center text-orange-500 font-bold mb-3">
-            Create Story
+            Create Lessons
           </h1>
           <p className="text-gray-400 text-sm mb-5 text-center">
             Share your company details and let AI craft compelling narratives

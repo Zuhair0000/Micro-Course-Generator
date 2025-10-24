@@ -36,7 +36,7 @@ export default function CourseDetail() {
   }, [API_URL, id, token]);
   return (
     <>
-      <Navbar />
+      <Navbar showbuttons={false} />
       <div className="min-h-screen bg-[#1F2028] flex flex-col items-center text-white px-6 py-20">
         <h1 className="text-3xl font-bold text-orange-500 mb-6">
           Micro-Course: Basic Python for Data Cleaning
@@ -60,7 +60,9 @@ export default function CourseDetail() {
         </div>
 
         {/* Tab Content */}
-        {activeTab === "lessons" && <Lessons lessons={lessons} />}
+        {activeTab === "lessons" && (
+          <Lessons lessons={lessons} setLessons={setLessons} />
+        )}
 
         {activeTab === "schedule" && <Schedule schedule={schedule} />}
 

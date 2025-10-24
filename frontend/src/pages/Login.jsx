@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import AuthForm from "../components/AuthForm";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -23,9 +24,10 @@ export default function Login() {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+      toast.success("Login successful");
       navigate("/dashboard");
     } catch (err) {
-      alert(err.message);
+      console.error(err.message);
     } finally {
       setIsLoading(false);
     }

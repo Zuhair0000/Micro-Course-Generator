@@ -147,3 +147,38 @@ exports.getLessonsByDraftId = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch lessons" });
   }
 };
+
+exports.editLesson = async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+  if (!title || !content) {
+    return res.status(409).json({ message: "All fields are required" });
+  }
+
+  try {
+    const result = await pool.query(
+      "UPDATE lessons SET title = $1, content = $2 WHERE id = $3 RETURNING *",
+      [title, content, id]
+    );
+
+    res
+      .status(200)
+      .json({ message: "Lesson updated successfully", lesson: result.rows[0] });
+  } catch (err) {
+    console.error("Failed to Update lesson:", err);
+    return res.status(500).json({ message: "Failed to update lessons" });
+  }
+};
+
+exports.deleteLesson = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await pool.query("DELETE FROM lessons WHERE id = $1", [id]);
+
+    res.status(200).json({ message: "Lesson deleted successfully" });
+  } catch (err) {
+    console.error("Failed to deleted lesson:", err);
+    return res.status(500).json({ message: "Failed to deleted lessons" });
+  }
+};
